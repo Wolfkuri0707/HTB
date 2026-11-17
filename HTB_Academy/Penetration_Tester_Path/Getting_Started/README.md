@@ -165,3 +165,16 @@ Chạy lệnh `nmap` để quét các cổng, do đề bài hỏi phiên bản c
 
 ---
 
+### 10: Spawn the target VM and type "DONE" in the answer field to continue enumeration.
+
+> **Đáp án:** `DONE`
+
+---
+
+### 11: Gain a foothold on the target and submit the user.txt flag
+
+
+
+---
+
+
