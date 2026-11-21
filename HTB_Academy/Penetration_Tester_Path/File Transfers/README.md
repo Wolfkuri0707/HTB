@@ -15,7 +15,7 @@ Dùng lệnh `wget http://<IP>/flag.txt`
 Đề bài gợi ý chúng ta kết nối với máy chủ thông qua giao thức `RDP`, thông qua `username` và `password` đã được cung cấp  
 do đang chạy trên máy ảo `kali linux` nên dùng lệnh: `xfreerdp /v:<IP> /u:<username> /p:<password> /cert:ignore +clipboard /dynamic-resolution`  
 `/cert:ignore`: Bỏ qua xác thực chứng chỉ SSL  
-`+clipboard`: Bật đồng bộ clipboard cho phép chia sẻ dữ liệu giữa các client
+`+clipboard`: Bật đồng bộ clipboard cho phép chia sẻ dữ liệu giữa các client  
 `/dynamic-resolution`: Tự động thay đổi độ phân giải để dễ nhìn
 
 ![RDP_client](./images/pic3.jpg)
