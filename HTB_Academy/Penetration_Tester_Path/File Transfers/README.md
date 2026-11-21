@@ -33,7 +33,13 @@ Màn hình client hiện ra sau khi kết nối thành công
 
 ---
 
-### Q3: Download the file flag.txt from the web root using Python from the Pwnbox. Submit the contents of the file as your answer.
+### Q3: Connect to the target machine via RDP and practice various file transfer operations (upload and download) with your attack host. Type "DONE" when finished.
+
+> **Đáp án:** `DONE`
+
+---
+
+### Q4: Download the file flag.txt from the web root using Python from the Pwnbox. Submit the contents of the file as your answer.
 
 Lệnh `wget http://<IP>/flag.txt` để lấy đáp án
 
@@ -42,4 +48,55 @@ Lệnh `wget http://<IP>/flag.txt` để lấy đáp án
 > **Đáp án:** `5d21cf3da9c0ccb94f709e2559f3ea50`
 
 ---
+
+### Q5: Upload the attached file named upload_nix.zip to the target using the method of your choice. Once uploaded, SSH to the box, extract the file, and run "hasher <extracted file>" from the command line. Submit the generated hash as your answer.
+
+Ở phần này, đề bài yêu cầu truy cập máy chủ thông qua giao thức `SSH`, với `username` và `password` cho sẵn.  
+Trước tiên, ta phải upload file lên máy chủ trước !!!  
+`scp upload_nix.txt htb-student@<IP>:~/`
+
+![Upload_file](./images/pic8.jpg)
+
+Sau khi đã upload thành công file `upload_nix.txt`, ta tiến hành ssh vào máy chủ  
+`ssh htb-student@<IP>`
+
+![SSH_connect](./images/pic9.jpg)
+
+Tiến hành hash file rồi lấy đáp án !!!  
+`hasher upload_nix.txt`
+
+![hash_file](./images/pic10.jpg)
+
+> **Đáp án:** `159cfe5c65054bbadb2761cfa359c8b0`
+
+---
+
+### Q6: Connect to the target machine via SSH and practice various file transfer operations (upload and download) with your attack host (workstation). Type "DONE" when finished.
+
+> **Đáp án:** `DONE`
+
+---
+
+### Q7: Connect to the target machine via SSH (Username: htb-student | Password:HTB_@cademy_stdnt!) and practice various file transfer operations (upload and download) with your attack host. Type "DONE" when finished.
+
+> **Đáp án:** `DONE`
+
+---
+
+### Q8: Use xfreerdp or rdesktop to connect to the target machine via RDP (Username: htb-student | Password:HTB_@cademy_stdnt!) and mount a Linux directory to practice file transfer operations (upload and download) with your attack host. Type "DONE" when finished.
+
+> **Đáp án:** `DONE`
+
+---
+
+### Q9: Connect to the target machine via RDP ((Username: htb-student | Password:HTB_@cademy_stdnt!)) and use Living Off The Land techniques presented in this section or any other found on the LOLBAS and GTFOBins websites to transfer files between the Pwnbox and the Windows target. Type "DONE" when finished.
+
+> **Đáp án:** `DONE`
+
+---
+
+
+
+
+
 
