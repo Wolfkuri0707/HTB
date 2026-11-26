@@ -241,3 +241,104 @@ Vậy ta đã tìm ra đáp án
 > **Đáp án:** `edgerouter-isp`
 
 ---
+
+### Q14: Establish a web shell session with the target using the concepts covered in this section. Submit the full path of the directory you land in. (Format: c:\path\you\land\in)
+
+Thực hiện nmap quét nạn nhân:
+
+![nmap](./images/pic28.jpg)
+
+Như thông tin ở nmap ta thấy, địa chỉ IP này là của 1 web và ở module này cũng gợi ý chúng ta sẽ sử dùng file `shell.aspx` trong bộ công cụ `laudanum`  
+Do máy mình đã tải sẵn bộ công cụ này nên mình sẽ sao chép ra 1 file mới để tiến hành upload file đó lên máy nạn nhân rồi thực thi file để chiếm quyền điều khiển  
+lệnh `cp /usr/share/laudanum/aspx/shell.aspx /home/demo.aspx`  
+Sau khi đã tạo ra 1 bản copy của file, mình sẽ cần cấu hình địa chỉ IP của máy nạn nhân vào trong nội dung của file
+
+![nmap](./images/pic29.jpg)
+
+Ở dòng `allowedIps` mình sẽ dán IP của máy nạn nhân vào
+
+![open_web](./images/web.jpg)
+
+Mình mở web ra rồi upload file `demo.aspx` vừa tạo, sau khi upload xong, mình sẽ mở file đó ở trên web vừa upload.  
+
+![cmd](./images/pic30.jpg)
+
+Màn hình chờ cho ta thấy, giờ ta đã có thể thực thi câu lệnh cmd ngay trên web
+
+![dir](./images/pic31.jpg)
+
+Chạy lệnh `dir` để lấy đáp án
+
+> **Đáp án:** `c:\windows\system32\inetsrv`
+
+---
+
+### Q15: Where is the Laudanum aspx web shell located on Pwnbox? Submit the full path. (Format: /path/to/laudanum/aspx)
+
+Mặc định `aspx web shell` sẽ được cấu hình trong `/usr/share/laudanum/aspx/shell.aspx` khi cài đặt
+
+![answer](./images/pic32.jpg)
+
+> **Đáp án:** `/usr/share/laudanum/aspx/shell.aspx`
+
+---
+
+### Q16: Where is the Antak webshell located on Pwnbox? Submit the full path. (Format:/path/to/antakwebshell)
+
+Mặc định công cụ `Antak webshell` khi cài đặt sẽ được để ở đường dẫn: `/usr/share/nishang/Antak-WebShell/antak.aspx`
+
+![answer](./images/answer16.jpg)
+
+> **Đáp án:** `/usr/share/nishang/Antak-WebShell/antak.aspx`
+
+---
+
+### Q17: Establish a web shell with the target using the concepts covered in this section. Submit the name of the user on the target that the commands are being issued as. In order to get the correct answer you must navigate to the web shell you upload using the vHost name. (Format: ****\****, 1 space)
+
+Vẫn như các questions trước, lần này ta sẽ sử dụng công cụ `Antak-Webshell` để upload lên nạn nhân, ta tiến hành tạo 1 bản copy của mã độc: `cp /usr/share/nishang/Antak-WebShell/antak.aspx ./Upload.aspx`
+
+![copy](./images/pic33.jpg)
+
+`sudo nano Upload.aspx` để mình xem nội dung cũng như chỉnh nội dung trong mã độc này
+
+![copy](./images/pic34.jpg)
+
+Như ta có thể thấy, file này yêu cầu phải có `username` và `password` thì mới thực thi được trên nạn nhân, tùy vào mọi người có thể tùy chỉnh `username` và `password` như mọi người muốn  
+Ở đây mình sẽ để mặc định:  
+`username: Disclaimer` 
+`password: ForLegitUseOnly`
+
+![upload](./images/pic35.jpg)
+
+Tiến hành upload file chứa mã độc
+
+![permission](./images/pic36.jpg)
+
+Khi truy cập vào file chứa mã độc ta vừa upload trên web, nó yêu cầu nhập `username` và `password`, ta nhập như `username` và `password` ta vừa chỉnh ở trên (Ở đây mình để mặc định)
+
+![permission](./images/pic37.jpg)
+
+![success](./images/pic38.jpg)
+
+Đăng nhập thành công, 1 cửa sổ terminal hiện ra
+
+![success](./images/pic39.jpg)
+
+Chạy lệnh `whoami` để lấy đáp án
+
+> **Đáp án:** `iis apppool\status`
+
+---
+
+### Q18: In the example shown, what must the Content-Type be changed to in order to successfully upload the web shell? (Format: .../... )
+
+Dựa theo gợi ý và ví dụ đã làm ở trên trong bài module này ta lấy được đáp án của cả 2 `Q18` và `Q19`
+
+> **Đáp án:** `image/gif`
+
+---
+
+### Q19: Use what you learned from the module to gain a web shell. What is the file name of the gif in the /images/vendor directory on the target? (Format: xxxx.gif)
+
+> **Đáp án:** `ajax-loader.gif`
+
